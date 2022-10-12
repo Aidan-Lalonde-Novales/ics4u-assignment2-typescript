@@ -1,41 +1,51 @@
 /**
- * This program tells you the length
- * required for a board foot.
+ * Assignment 2 - String Manipulation
+ * This program multiplies characters together and prints them out.
  *
  * By:      Aidan Lalonde-Novales
  * Version: 1.0
- * Since:   2022-09-24
+ * Since:   2022-10-11
  */
 
 import promptSync from 'prompt-sync'
-
 const prompt = promptSync()
-
-/**
- * @param {number} width Width of the wood
- * @param {number} height Height of the wood
- * @returns {number} length Length of the wood
- */
-function boardFoot(width: number, height: number): number {
-  const BOARD_FOOT = 144
-  const length = BOARD_FOOT / (width * height)
-  return length
-}
-
-console.log('This program calculates the required length for a board foot.')
+const finalList = []
 
 // Input
-const widthString = prompt('Enter the width of the wood (in): ')
-const width = parseFloat(widthString)
-const heightString = prompt('Enter the height of the wood (in): ')
-const height = parseFloat(heightString)
+const baseString = prompt('Enter numbers/letters to multiply them: ')
 
-// Process and Output
-if (isNaN(width) || isNaN(height)) {
-  console.log('\nInvalid Input.')
-} else {
-  const length = boardFoot(width, height)
-  console.log(`\nYour wood length should be ${length} inch(es) long.`)
+// Process
+const splitString = baseString.split('')
+for (let counter = 0; counter < splitString.length; counter++) {
+  const item = splitString[counter]
+  let tempString = ''
+
+  // Run if character appears
+  if (isNaN(Number(item))) {
+    if (isNaN(Number(splitString[counter - 1])) || counter !== 0) {
+      tempString = item
+      finalList.push(tempString)
+    }
+    // Run if number appears
+  } else {
+    if (splitString[counter + 1] !== undefined) {
+      for (let mCounter = 0; mCounter < Number(item); mCounter++) {
+        // concat function used to merge strings
+        tempString = tempString.concat(splitString[counter + 1])
+      }
+    }
+    if (isNaN(Number(splitString[counter + 1]))) {
+      counter++
+    }
+    finalList.push(tempString)
+  }
 }
+
+// Final Output is formed here
+const finalString = finalList.join('')
+
+// Output
+console.log('')
+console.log(finalString)
 
 console.log('\nDone.')
